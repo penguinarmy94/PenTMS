@@ -1,7 +1,4 @@
 from typing import List, Any, Dict, Tuple, Union, Generator, Optional
-
-
-
 # creating a Class that the user can utilize in order to create different national parks
 
 STATES = ["CA", "FL", "TX", "NY", "RI", "WS"]
@@ -123,3 +120,4 @@ if __name__ == "__main__":
     print(a,b)
     print(a.monuments, b.monuments) # [Monument(..), Monument(...)] [Monument(..), Monument(..)]
 
+    #not sure what i dd but i my last action merged my branch and i lost the entire functions section of the project. copied from repository. 
