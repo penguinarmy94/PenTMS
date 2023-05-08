@@ -1,7 +1,9 @@
 import os
 from typing import Tuple, List
 
-def find_files_with_extension(directory: str, depth: int = 0, extension: str = (".py", ".txt", ".cpp", ".html")) -> Tuple[str]:
+tuple_of_extensions = (".py", ".txt", ".json", ".html", ".cpp", ".md", ".venv", )
+
+def find_files_with_extension(directory: str, depth: int = 0, extension: str = tuple_of_extensions) -> Tuple[str]:
     """
         Recursively find files with a specific extension
         
@@ -29,6 +31,6 @@ def find_files_with_extension(directory: str, depth: int = 0, extension: str = (
 
 if __name__ == "__main__":
     directory: str =  r"C:\Users\marti\PythonProjects"
-    files: Tuple[str] = find_files_with_extension(directory=directory, depth=3, extension=(".txt", ".py", ".cpp", ".html"))
+    files: Tuple[str] = find_files_with_extension(directory=directory, depth=3, extension=(".txt", ".py", ".cpp"))
      
     print(files)
