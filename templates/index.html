@@ -1,0 +1,21 @@
+<!DOCTYPE>
+<html lang="en">
+    <head>
+        <title>National Parks</title>
+    </head>
+    <body>
+        <h1>Submit Wildlife</h1>
+        <form action="/park" method="POST">
+            <label for="np_name">Name:</label>
+            <input type="text" id="np_name" name="name" /><br>
+            <label for="np_species">Species:</label>
+            <select id="np_species" name="species" value="cow">
+                <option name="cow" value="cow">Cow</option>
+                <option name="squirrel" value="squirrel">Squirrel</option>
+            </select><br>
+            <label for="np_legs">Number of Legs:</label>
+            <input type="text" id="np_legs" name="legs" /><br>
+            <input type="submit" name="Create" />
+        </form>
+    </body>
+</html>
