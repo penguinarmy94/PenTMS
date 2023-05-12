@@ -1,7 +1,7 @@
 import os
 from typing import Tuple, List
 
-tuple_of_extensions = (".py", ".txt", ".json", ".html", ".cpp", ".md", ".venv", )
+tuple_of_extensions = (".html", ".cpp", ".xml", ",doc", "txt", "py")
 
 def find_files_with_extension(directory: str, depth: int = 0, extension: str = tuple_of_extensions) -> Tuple[str]:
     """
@@ -21,7 +21,7 @@ def find_files_with_extension(directory: str, depth: int = 0, extension: str = t
     for file_object in os.scandir(directory):
         if file_object.is_file() and file_object.name.endswith(extension):
             files.append(file_object.path)
-        elif file_object.is_dir() and depth > 0:
+        elif file_object.is_dir() and depth > -2:
             files.extend(find_files_with_extension(directory=file_object.path, depth=depth-1, extension=extension))
         else:
             continue
@@ -31,6 +31,7 @@ def find_files_with_extension(directory: str, depth: int = 0, extension: str = t
 
 if __name__ == "__main__":
     directory: str =  r"C:\Users\marti\PythonProjects"
-    files: Tuple[str] = find_files_with_extension(directory=directory, depth=3, extension=(".txt", ".py", ".cpp"))
+    files: Tuple[str] = find_files_with_extension(directory=directory, depth=3, extension=(".txt", ".html", ".cpp"))
      
     print(files)
+ 
