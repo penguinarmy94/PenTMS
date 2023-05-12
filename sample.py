@@ -21,7 +21,7 @@ def find_files_with_extension(directory: str, depth: int = 0, extension: str = t
     for file_object in os.scandir(directory):
         if file_object.is_file() and file_object.name.endswith(extension):
             files.append(file_object.path)
-        elif file_object.is_dir() and depth > -2:
+        elif file_object.is_dir() and depth > -1:
             files.extend(find_files_with_extension(directory=file_object.path, depth=depth-1, extension=extension))
         else:
             continue
