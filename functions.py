@@ -71,7 +71,6 @@ class HikeLibrary:
         self.__library.append(hike_name)
     
     def remove_hikes(self, hike_name: str):
-        index = 0
         pass
 
 
@@ -82,7 +81,7 @@ class NationalPark:
         self.__state: str = state
         self.__terrain_type: str = terrain_type
         self.__monuments: MonumentLibrary = MonumentLibrary()
-        self.__trails: List[str] = []
+        self.__hikes: List[str] = []
         self.perimeter: float = perimeter
         self.name: str = name 
         self.__wildlife: List[Wildlife] = []
@@ -123,7 +122,10 @@ class NationalPark:
     
     def add_hikes(self, name: str, length: float, difficulty: str, elevation_gain: int, trail_type):
         new_hike: Hikes = Hikes(name= name, length= length, difficulty= difficulty, elevation_gain= elevation_gain, type_of_trail=trail_type)
-        self.__trails.append(new_hike)
+        self.__hikes.append(new_hike)
+
+    def remove_hikes(self, hike_name: str):
+        pass
     
     def add_monument(self, name: str, **opt):
         monuments: Monument = Monument(name= name, year_built= opt.get("year_built", 1920), historic_value= opt.get("historic_value", "unknown"))
