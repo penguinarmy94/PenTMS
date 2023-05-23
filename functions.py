@@ -52,7 +52,7 @@ class MonumentLibrary: # TODO
         return "\n".join([str(monuments) for monuments in self.__library])
     
 
-class Hikes:
+class Hike:
     def __init__(self, name: str, length: float, difficulty: str, elevation_gain: int, type_of_trail: str): 
         self.length: float = length
         self.elevation_gain: int = elevation_gain
@@ -65,14 +65,37 @@ class Hikes:
     
 class HikeLibrary: 
     def __init__(self): 
-        self.__library = List[Hikes] = []
+        self.__library: List[Hike] = []
     
     def add_hikes(self, hike_name: str):
         self.__library.append(hike_name)
     
     def remove_hikes(self, hike_name: str):
         index = 0
-        pass
+        while index < len(self, self.__library):
+            hike: Hike = self.__library[index]
+            if hike.name == hike_name:
+                self.__library.remove(hike)
+                break
+            else: 
+                index += 1
+
+    def __len__(self) -> int:
+        return len(self.__library)
+    
+    def __iter__(self) -> Generator[Hike, None, None]:
+        for hike in self.__library:
+            yield hike
+    
+    def __repr__(self) -> str:
+            return "\n".join([str(hikes) for hikes in self.__library])
+    
+    def __contains__(self, name: str) -> bool:
+        for hike in self.__library: 
+            if hike.name == name:
+                return True 
+        
+        return False
 
 
 
@@ -82,7 +105,7 @@ class NationalPark:
         self.__state: str = state
         self.__terrain_type: str = terrain_type
         self.__monuments: MonumentLibrary = MonumentLibrary()
-        self.__trails: List[str] = []
+        self.__trails: HikeLibrary = HikeLibrary()
         self.perimeter: float = perimeter
         self.name: str = name 
         self.__wildlife: List[Wildlife] = []
@@ -122,14 +145,18 @@ class NationalPark:
             self.__state = new_state
     
     def add_hikes(self, name: str, length: float, difficulty: str, elevation_gain: int, trail_type):
-        new_hike: Hikes = Hikes(name= name, length= length, difficulty= difficulty, elevation_gain= elevation_gain, type_of_trail=trail_type)
-        self.__trails.append(new_hike)
+        new_hike: Hike = Hike(name= name, length= length, difficulty= difficulty, elevation_gain= elevation_gain, type_of_trail=trail_type)
+        self.__trails.add_hikes(new_hike)
+
+    def remove_hike(self, hike_name: str):
+        if hike_name in self.__trails:
+            self.__trails.remove_hikes(hike_name)
     
     def add_monument(self, name: str, **opt):
         monuments: Monument = Monument(name= name, year_built= opt.get("year_built", 1920), historic_value= opt.get("historic_value", "unknown"))
         self.__monuments.add_monument(monuments)
     
-    def remove_monument(self, monument_name):
+    def remove_monument(self, monument_name: str):
         if monument_name in self.__monuments:
             self.__monuments.remove_monument(monument_name) 
 
@@ -202,14 +229,24 @@ if __name__ == "__main__":
     # parks.remove_monument(a.name)
     # print(parks.monuments)
 
-    a = Hikes(name="Jones Peak",length= 7,difficulty= "Advanced",elevation_gain= 3000,type_of_trail= "Out and Back")
-    b = Hikes("Strawberry Peak", 6.5, "Advanced", 2700, "Out and Back")
+    a = Hike(name="Jones Peak",length= 7,difficulty= "Advanced",elevation_gain= 3000,type_of_trail= "Out and Back")
+    b = Hike("Strawberry Peak", 6.5, "Advanced", 2700, "Out and Back")
+    c = Hike("Mt Baldy", 14, "Advanced", 5000, "Hard")
 
     parks.add_hikes(a.name, a.length, a.difficulty, a.elevation_gain, a.trail_type)
     parks.add_hikes(b.name, b.length, b.difficulty, b.elevation_gain, b.trail_type)
-    print(a, b)
+    parks.add_hikes(c.name, c.length, c.difficulty, c.elevation_gain, c.trail_type)
 
+    print(a, b)
+    print(c)
+
+    assert parks.hikes_count() == 3
+    
+    
+    parks.remove_hike(a.name)
     assert parks.hikes_count() == 2
+
+    
     
     # print(a,b)
     # print(a.monuments, b.monuments) # [Monument(..), Monument(...)] [Monument(..), Monument(..)]
