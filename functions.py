@@ -52,20 +52,78 @@ class MonumentLibrary: # TODO
         return "\n".join([str(monuments) for monuments in self.__library])
     
 
-class Hike:
-    def __init__(self, name: str, length: float, difficulty: str, elevation_gain: int, type_of_trail: str): 
-        self.length: float = length
-        self.elevation_gain: int = elevation_gain
-        self.trail_type: str = type_of_trail
-        self.difficulty: str = difficulty
-        self.name: str = name
-
-    def __repr__(self) -> str:
-        return f"The trail name is {self.name}, it is a {self.trail_type} that is {self.length} miles long with an elevation gain of {self.elevation_gain} feet. This trail is for more {self.difficulty} hikers, hike at your own risk."
+class Trail:
+    DIFFICULTIES: Tuple[str] = ("intermediate", "moderate", "advanced")
+    TRAIL_TYPES: Tuple[str] = ("one way", "loop", "out and back")
+    TRAIL_LENGTH_MEASUREMENT_TYPES: Tuple[str] = ("miles", "kilometers")
     
-class HikeLibrary: 
+    def __init__(self, name: str, length: float, length_measurement_type: str, difficulty: str, peak_elevation: int, type_of_trail: str): 
+        self.__max_elevation: int = 90000
+        self.__is_open: bool = True
+        self.__length: float = length # TODO: create property and setter functions for length
+        self.__name: str = name # TODO: create a setter for name
+        self.peak_elevation = peak_elevation
+        self.trail_type = type_of_trail
+        self.difficulty = difficulty
+        
+        self.set_length_measurement_type(length_measurement_type)
+
+    
+    @property
+    def name(self) -> str:
+        return self.__name
+    
+    @property
+    def difficulty(self) -> str:
+        return self.__difficulty
+    
+    @difficulty.setter
+    def difficulty(self, level: str):
+        if level.lower() in self.DIFFICULTIES:
+            self.__difficulty = level.lower()
+        else:
+            raise ValueError(f"The difficulty level '{level}' is not allowed. Choose one of the following: {self.DIFFICULTIES}")
+    
+    @property
+    def trail_type(self) -> str:
+        return self.__trail_type
+    
+    @trail_type.setter
+    def trail_type(self, trail_type_value: str):
+        if trail_type_value.lower() in self.TRAIL_TYPES:
+            self.__trail_type = trail_type_value.lower()
+        else:
+            raise ValueError(f"The trail type '{trail_type_value}' is not allowed. Choose one of the following: {self.TRAIL_TYPES}")
+
+    @property
+    def is_open(self) -> bool:
+        return self.__is_open
+    
+    @property
+    def peak_elevation(self) -> int:
+        return self.__peak_elevation
+    
+    @peak_elevation.setter
+    def peak_elevation(self, elevation: int):
+        if elevation >= 0 and elevation < self.__max_elevation:
+            self.__peak_elevation = elevation
+        elif elevation > self.__max_elevation:
+            raise ValueError(f"The peak elevation cannot be more than {self.__max_elevation}")
+        else:
+            raise ValueError("The peak elevation cannot be negative")
+    
+    def set_length_measurement_type(self, length_measurement_type: str):
+        if length_measurement_type.lower() in self.TRAIL_LENGTH_MEASUREMENT_TYPES:
+            self.__length_measurement_type = length_measurement_type
+        else:
+            raise ValueError(f"The trail length measurement type '{length_measurement_type}' is not allowed. Choose one of the following: {self.TRAIL_LENGTH_MEASUREMENT_TYPES}")
+    
+    def __repr__(self) -> str:
+        return f"The trail name is {self.name}, it is a {self.trail_type} that is {self.__length} {self.__length_measurement_type} long with an elevation gain of {self.peak_elevation} feet. This trail is for more {self.difficulty} hikers, hike at your own risk."
+    
+class TrailLibrary: 
     def __init__(self): 
-        self.__library: List[Hike] = []
+        self.__library: List[Trail] = []
     
     def add_hikes(self, hike_name: str):
         self.__library.append(hike_name)
@@ -73,7 +131,7 @@ class HikeLibrary:
     def remove_hikes(self, hike_name: str):
         index = 0
         while index < len(self, self.__library):
-            hike: Hike = self.__library[index]
+            hike: Trail = self.__library[index]
             if hike.name == hike_name:
                 self.__library.remove(hike)
                 break
@@ -83,7 +141,7 @@ class HikeLibrary:
     def __len__(self) -> int:
         return len(self.__library)
     
-    def __iter__(self) -> Generator[Hike, None, None]:
+    def __iter__(self) -> Generator[Trail, None, None]:
         for hike in self.__library:
             yield hike
     
@@ -98,14 +156,13 @@ class HikeLibrary:
         return False
 
 
-
 class NationalPark:
     def __init__(self, name: str, county: str, state: str, terrain_type: str, perimeter: float):
         self.__county: str = county
         self.__state: str = state
         self.__terrain_type: str = terrain_type
         self.__monuments: MonumentLibrary = MonumentLibrary()
-        self.__trails: HikeLibrary = HikeLibrary()
+        self.__trails: TrailLibrary = TrailLibrary()
         self.perimeter: float = perimeter
         self.name: str = name 
         self.__wildlife: List[Wildlife] = []
@@ -229,23 +286,24 @@ if __name__ == "__main__":
     # parks.remove_monument(a.name)
     # print(parks.monuments)
 
-    a = Hike(name="Jones Peak",length= 7,difficulty= "Advanced",elevation_gain= 3000,type_of_trail= "Out and Back")
-    b = Hike("Strawberry Peak", 6.5, "Advanced", 2700, "Out and Back")
-    c = Hike("Mt Baldy", 14, "Advanced", 5000, "Hard")
+    a = Trail(name="Jones Peak", length=-5, length_measurement_type="kilometers", difficulty= "advanced", peak_elevation=3000, type_of_trail="Out and back")
+    # b = Trail("Strawberry Peak", 6.5, "Advanced", 2700, "Out and Back")
+    # c = Trail("Mt Baldy", 14, "Advanced", 5000, "Hard")
 
-    parks.add_hikes(a.name, a.length, a.difficulty, a.elevation_gain, a.trail_type)
-    parks.add_hikes(b.name, b.length, b.difficulty, b.elevation_gain, b.trail_type)
-    parks.add_hikes(c.name, c.length, c.difficulty, c.elevation_gain, c.trail_type)
+    # parks.add_hikes(a.name, a.length, a.difficulty, a.elevation_gain, a.trail_type)
+    # parks.add_hikes(b.name, b.length, b.difficulty, b.elevation_gain, b.trail_type)
+    # parks.add_hikes(c.name, c.length, c.difficulty, c.elevation_gain, c.trail_type)
 
-    print(a, b)
-    print(c)
+    # print(a, b)
+    # print(c)
 
-    assert parks.hikes_count() == 3
+    # assert parks.hikes_count() == 3
     
     
-    parks.remove_hike(a.name)
-    assert parks.hikes_count() == 2
-
+    # parks.remove_hike(a.name)
+    # assert parks.hikes_count() == 2
+    
+    print(a)
     
     
     # print(a,b)
