@@ -17,6 +17,7 @@ class Monument: # TODO
 
     def __repr__(self) -> str:
         return f"The monument's name is {self.name}, it was built in {self.year}, and it is valuable because {self.historic_value}"
+
 class MonumentLibrary: # TODO
     def __init__(self):
         self.__library: List[Monument] = []
@@ -51,38 +52,34 @@ class MonumentLibrary: # TODO
     def __repr__(self) -> str:
         return "\n".join([str(monuments) for monuments in self.__library])
     
-
 class Trail:
     DIFFICULTIES: Tuple[str] = ("intermediate", "moderate", "advanced")
     TRAIL_TYPES: Tuple[str] = ("one way", "loop", "out and back")
-    TRAIL_LENGTH_MEASUREMENT_TYPES: Tuple[str] = ("miles", "kilometers") 
-    TRAIL_NAMES: Tuple[str] = ("Jones Peak", "Mt. Baldy", "Strawberry Peak", "Colby Canyon", "Mt. San Jacinto")
+    TRAIL_LENGTH_MEASUREMENT_TYPES: Tuple[str] = ("miles", "kilometers")
+    TRAIL_NAME_UNALLOWED_CHARACTERS: str = r":;'\"=+-_}{}[]|\*<>?/~@$"
     
     def __init__(self, name: str, length: float, length_measurement_type: str, difficulty: str, peak_elevation: int, type_of_trail: str): 
         self.__max_elevation: int = 90000
         self.__max_length: float = 300
         self.__is_open: bool = True
-        self.__length_measurement_type = self.set_length_measurement_type(length_measurement_type)
-        self.__length: float = length # TODO: create property and setter functions for length {DONE}
-        self.__name: str = name # TODO: create a setter for name {DONE}
+        self.set_length_measurement_type(length_measurement_type)
+        self.length: float = length # TODO: create property and setter functions for length {DONE}
+        self.name: str = name # TODO: create a setter for name {DONE}
         self.peak_elevation = peak_elevation
         self.trail_type = type_of_trail
         self.difficulty = difficulty
         
-        
-
-    
     @property
     def name(self) -> str:
         return self.__name
     
     @name.setter
-    def name(self, name: str): 
-        if name.lower() in self.TRAIL_NAMES:
-            self.__name = name.lower()
-        else: 
-            raise ValueError(f"The name {name} is not in the given menu. Please select one of the following : {self.TRAIL_NAMES}")
-
+    def name(self, name: str):
+        for illegal_character in self.TRAIL_NAME_UNALLOWED_CHARACTERS:
+            if illegal_character in name:
+               raise ValueError(f"The name {name} is not allowed because the character '{illegal_character}' is not allowed.") 
+        
+        self.__name = name 
     
     @property
     def difficulty(self) -> str:
@@ -96,9 +93,8 @@ class Trail:
             raise ValueError(f"The difficulty level '{level}' is not allowed. Choose one of the following: {self.DIFFICULTIES}")
     
     @property
-    def length(self) -> int:
+    def length(self) -> float:
         return self.__length
-
 
     @length.setter
     def length(self, length: float):
@@ -107,7 +103,7 @@ class Trail:
         elif length > self.__length:
             raise ValueError(f"The maximum length cannot be more than {self.__max_length}")
         else:
-            raise ValueError(f"The length cannot be less than 0")
+            raise ValueError("The length cannot be less than 0")
 
     @property
     def trail_type(self) -> str:
@@ -141,33 +137,22 @@ class Trail:
     def length_measurement_type(self) -> str:
         return self.__length_measurement_type
 
-
     def set_length_measurement_type(self, length_measurement_type: str):
         if length_measurement_type in self.TRAIL_LENGTH_MEASUREMENT_TYPES:
             self.__length_measurement_type = length_measurement_type.lower() 
-            return length_measurement_type  # added return statement {DONE}
         else:
             raise ValueError(f"The trail length measurement type '{length_measurement_type}' is not allowed. Choose one of the following: {self.TRAIL_LENGTH_MEASUREMENT_TYPES}")
     
     def __repr__(self) -> str:
         return f"The trail name is {self.name}, it is a {self.trail_type} that is {self.__length} {self.__length_measurement_type} long with an elevation gain of {self.peak_elevation} feet. This trail is for more {self.difficulty} hikers, hike at your own risk."
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
 class TrailLibrary: 
     def __init__(self): 
         self.__library: List[Trail] = []
     
-    def add_trail(self, trail_name: str):
-        self.__library.append(trail_name)
-    
-    def remove_trail(self, trail_name: str):
-        index = 0
-        while index < len(self.__library):
-            trail: Trail = self.__library[index]
-            if trail.name == trail_name:
-                self.__library.remove(trail)
-                break
-            else: 
-                index += 1
-
     def __len__(self) -> int:
         return len(self.__library)
     
@@ -175,19 +160,47 @@ class TrailLibrary:
         for trail in self.__library:
             yield trail
 
-    def __len__(self) -> int:
-        return len(self.__library)
-    
     def __repr__(self) -> str:
             return "\n".join([str(trail) for trail in self.__library])
     
-    def __contains__(self, name: str) -> bool:
+    def __contains__(self, trail_to_find: Trail) -> bool:
         for trail in self.__library: 
-            if trail.name == name:
-                return True 
+            if trail == trail_to_find:
+                return True
+        
+        return False
+    
+    def add_trail(self, trail: Trail):    
+        if self.trail_exists_by_name(trail_name=trail.name) == True:
+            raise ValueError(f"Oh no! Trail '{trail.name}' already exists")
+        else:
+            self.__library.append(trail)
+    
+    def remove_trail(self, trail_name: str) -> bool:
+        index: int = 0
+        
+        while index < len(self.__library):
+            trail: Trail = self.__library[index]
+            
+            if trail.name == trail_name:
+                self.__library.remove(trail)
+                return True
+            else: 
+                index += 1
         
         return False
 
+    def trail_exists_by_name(self, trail_name: str) -> bool:
+        return len(self.find_trails_by_name(trail_name=trail_name)) >= 1
+    
+    def find_trails_by_name(self, trail_name: str) -> List[Trail]:
+        trails_found: List[Trail] = []
+        
+        for trail in self.__library:
+            if trail.name == trail_name:
+                trails_found.append(trail)
+        
+        return trails_found
 
 class NationalPark:
     def __init__(self, name: str, county: str, state: str, terrain_type: str, perimeter: float):
@@ -307,7 +320,7 @@ if __name__ == "__main__":
     # parks.remove_monument(a.name)
     # print(parks.monuments)
 
-    a = Trail(name="Jones Peak", length=5, length_measurement_type="miles", difficulty= "advanced", peak_elevation=3000, type_of_trail="Out and back")
+    a = Trail(name='Jones Peak', length=5, length_measurement_type="miles", difficulty= "advanced", peak_elevation=3000, type_of_trail="Out and back")
     b = Trail(name="Strawberry Peak", length= 6.5, length_measurement_type= "miles", difficulty="Advanced", peak_elevation=2700, type_of_trail="Out and Back")
     c = Trail(name= "Mt Baldy", length=14,length_measurement_type="miles",  difficulty="Advanced", peak_elevation= 5000, type_of_trail="Loop")
 
