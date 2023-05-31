@@ -282,7 +282,6 @@ class NationalPark:
         
         return wildlife_types
         
-
 class NationalParkLibrary:
     def __init__(self):
         self.__library: List[NationalPark] = []
@@ -324,30 +323,18 @@ if __name__ == "__main__":
     b = Trail(name="Strawberry Peak", length= 6.5, length_measurement_type= "miles", difficulty="Advanced", peak_elevation=2700, type_of_trail="Out and Back")
     c = Trail(name= "Mt Baldy", length=14, length_measurement_type="miles",  difficulty="Advanced", peak_elevation = 5000, type_of_trail="Loop")
 
-    tl = TrailLibrary()
-    tl.add_trail(a)
-    tl.add_trail(b)
-    tl.add_trail(c)
-    # parks.add_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
-    # parks.add_trail(b.name, b.length, b.length_measurement_type,  b.difficulty, b.peak_elevation, b.trail_type)
-    # parks.add_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
+    parks.add_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
+    parks.add_trail(b.name, b.length, b.length_measurement_type,  b.difficulty, b.peak_elevation, b.trail_type)
+    parks.add_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
 
-
-
-    assert len(tl) == 3
-    assert tl.trail_exists_by_name(trail_name="Jones Peak") == True
-    assert tl.trail_exists_by_name(trail_name="Montomery") == False
-    assert len(tl.find_trails_by_name(trail_name="Mt Baldy")) == 1
     
     d = Trail(name="Strawberry Peak", length=10, length_measurement_type="kilometers", difficulty="moderate", peak_elevation=550, type_of_trail="loop")
     
-    tl.add_trail(d)
+    parks.add_trail(d.name, d.length, d.length_measurement_type, d.difficulty, d.peak_elevation, d.trail_type)
     
-    # parks.remove_trail(b.name)
+    parks.remove_trail(b.name)
 
-
-
-    # assert parks.trail_count() == 3
+    assert parks.trail_count() == 2
     
     
     
