@@ -176,17 +176,31 @@ class TrailLibrary:
         else:
             self.__library.append(trail)
     
-    def remove_trail(self, trail_name: str) -> bool:
+    def add_trails(self, *trails: Tuple[Trail]):
+        for trail in trails:
+            self.add_trail(trail=trail)
+    
+    def remove_trail(self, trail: Trail) -> bool:
         index: int = 0
         
         while index < len(self.__library):
-            trail: Trail = self.__library[index]
+            existing_trail: Trail = self.__library[index]
             
-            if trail.name == trail_name:
-                self.__library.remove(trail)
+            if existing_trail == trail:
+                self.__library.pop(index)
                 return True
-            else: 
-                index += 1
+        
+        return False
+    
+    def remove_trail_by_name(self, trail_name: str) -> bool:
+        index: int = 0
+        
+        while index < len(self.__library):
+            existing_trail: Trail = self.__library[index]
+            
+            if existing_trail.name == trail_name:
+                self.__library.pop(index)
+                return True
         
         return False
 
@@ -208,7 +222,7 @@ class NationalPark:
         self.__state: str = state
         self.__terrain_type: str = terrain_type
         self.__monuments: MonumentLibrary = MonumentLibrary()
-        self.__trail: TrailLibrary = TrailLibrary()
+        self.__trails: TrailLibrary = TrailLibrary()
         self.perimeter: float = perimeter
         self.name: str = name 
         self.__wildlife: List[Wildlife] = []
@@ -232,7 +246,6 @@ class NationalPark:
     def monuments(self) -> Tuple[Monument]:
         return tuple(self.__monuments)
         
-    
     @county.setter
     def county(self, new_county: str):
         if ";" in new_county:
@@ -247,13 +260,18 @@ class NationalPark:
         else:
             self.__state = new_state
     
-    def add_trail(self, name: str, length: float,length_measurement_type: str,  difficulty: str, peak_elevation: int, trail_type):
+    def add_trail(self, trail_object: Trail):
+        self.__trails.add_trails(trail_object)
+    
+    def remove_trail(self, trail_object: Trail) -> bool:
+        return self.__trails.remove_trail(trail_object)
+    
+    def create_trail(self, name: str, length: float,length_measurement_type: str,  difficulty: str, peak_elevation: int, trail_type):
         new_trail: Trail = Trail(name= name, length= length,length_measurement_type=length_measurement_type, difficulty= difficulty, peak_elevation= peak_elevation, type_of_trail=trail_type)
-        self.__trail.add_trail(new_trail)
+        self.__trails.add_trails(new_trail)
 
-    def remove_trail(self, trail_name: str):
-        if trail_name in self.__trail:
-            self.__trail.remove_trail(trail_name)
+    def remove_trail_by_name(self, trail_name: str) -> bool:
+        return self.__trails.remove_trail_by_name(trail_name)
     
     def add_monument(self, name: str, **opt):
         monuments: Monument = Monument(name= name, year_built= opt.get("year_built", 1920), historic_value= opt.get("historic_value", "unknown"))
