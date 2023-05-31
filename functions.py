@@ -100,7 +100,7 @@ class Trail:
     def length(self, length: float):
         if length >= 0 and length <= self.__max_length:
             self.__length = length
-        elif length > self.__length:
+        elif length > self.__max_length:
             raise ValueError(f"The maximum length cannot be more than {self.__max_length}")
         else:
             raise ValueError("The length cannot be less than 0")
@@ -322,22 +322,32 @@ if __name__ == "__main__":
 
     a = Trail(name='Jones Peak', length=5, length_measurement_type="miles", difficulty= "advanced", peak_elevation=3000, type_of_trail="Out and back")
     b = Trail(name="Strawberry Peak", length= 6.5, length_measurement_type= "miles", difficulty="Advanced", peak_elevation=2700, type_of_trail="Out and Back")
-    c = Trail(name= "Mt Baldy", length=14,length_measurement_type="miles",  difficulty="Advanced", peak_elevation= 5000, type_of_trail="Loop")
+    c = Trail(name= "Mt Baldy", length=14, length_measurement_type="miles",  difficulty="Advanced", peak_elevation = 5000, type_of_trail="Loop")
 
-    parks.add_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
-    parks.add_trail(b.name, b.length, b.length_measurement_type,  b.difficulty, b.peak_elevation, b.trail_type)
-    parks.add_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
+    tl = TrailLibrary()
+    tl.add_trail(a)
+    tl.add_trail(b)
+    tl.add_trail(c)
+    # parks.add_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
+    # parks.add_trail(b.name, b.length, b.length_measurement_type,  b.difficulty, b.peak_elevation, b.trail_type)
+    # parks.add_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
 
 
 
-    assert parks.trail_count() == 3
+    assert len(tl) == 3
+    assert tl.trail_exists_by_name(trail_name="Jones Peak") == True
+    assert tl.trail_exists_by_name(trail_name="Montomery") == False
+    assert len(tl.find_trails_by_name(trail_name="Mt Baldy")) == 1
     
+    d = Trail(name="Strawberry Peak", length=10, length_measurement_type="kilometers", difficulty="moderate", peak_elevation=550, type_of_trail="loop")
     
-    parks.remove_trail(b.name)
+    tl.add_trail(d)
+    
+    # parks.remove_trail(b.name)
 
 
 
-    assert parks.trail_count() == 3
+    # assert parks.trail_count() == 3
     
     
     
