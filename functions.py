@@ -189,6 +189,8 @@ class TrailLibrary:
             if existing_trail == trail:
                 self.__library.pop(index)
                 return True
+            
+            index += 1
         
         return False
     
@@ -201,6 +203,8 @@ class TrailLibrary:
             if existing_trail.name == trail_name:
                 self.__library.pop(index)
                 return True
+            
+            index += 1
         
         return False
 
@@ -282,7 +286,7 @@ class NationalPark:
             self.__monuments.remove_monument(monument_name) 
 
     def trail_count(self) -> int:
-        return len(self.__trail)
+        return len(self.__trails)
     
     def monument_count(self) -> int:
         return len(self.__monuments)
@@ -341,17 +345,21 @@ if __name__ == "__main__":
     b = Trail(name="Strawberry Peak", length= 6.5, length_measurement_type= "miles", difficulty="Advanced", peak_elevation=2700, type_of_trail="Out and Back")
     c = Trail(name= "Mt Baldy", length=14, length_measurement_type="miles",  difficulty="Advanced", peak_elevation = 5000, type_of_trail="Loop")
 
-    parks.add_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
-    parks.add_trail(b.name, b.length, b.length_measurement_type,  b.difficulty, b.peak_elevation, b.trail_type)
-    parks.add_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
+    parks.create_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
+    parks.add_trail(b)
+    parks.create_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
 
+    d = Trail(name="Chocolate Mountain", length=10, length_measurement_type="kilometers", difficulty="moderate", peak_elevation=550, type_of_trail="loop")
     
-    d = Trail(name="Strawberry Peak", length=10, length_measurement_type="kilometers", difficulty="moderate", peak_elevation=550, type_of_trail="loop")
+    e = d
     
-    parks.add_trail(d.name, d.length, d.length_measurement_type, d.difficulty, d.peak_elevation, d.trail_type)
-    
-    parks.remove_trail(b.name)
+    parks.add_trail(d)
+    parks.remove_trail(b)
 
+    assert parks.trail_count() == 3, f"There are actually '{parks.trail_count()}' trails"
+    
+    parks.remove_trail_by_name(trail_name=c.name)
+    
     assert parks.trail_count() == 2
     
     
