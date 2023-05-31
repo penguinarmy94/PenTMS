@@ -22,7 +22,7 @@ def find_files_with_extension(directory: str, depth: int = 0, extensions: Tuple[
         if file_object.is_file() and file_object.name.endswith(extensions):
             files.append(file_object.path)
         elif file_object.is_dir() and depth > -1:
-            files.extend(find_files_with_extension(directory=file_object.path, depth=depth-1, extension=extension))
+            files.extend(find_files_with_extension(directory=file_object.path, depth=depth-1, extensions=extensions))
         else:
             continue
     
