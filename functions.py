@@ -9,6 +9,27 @@ class Wildlife:
         self.leg_count: int = number_of_legs
         self.species: str = species
 
+class Campground: 
+    pass
+
+class CampgroundLibrary: 
+    pass
+
+class WeatherConditions: 
+    pass
+
+class BodyOfWater: 
+    pass
+
+class ParkActivities: 
+    pass
+
+class VisitorCenter: 
+    pass
+
+
+
+
 class Monument: # TODO
     def __init__(self, name: str, year_built: int, historic_value: str):
         self.year: int = year_built
@@ -21,6 +42,23 @@ class Monument: # TODO
 class MonumentLibrary: # TODO
     def __init__(self):
         self.__library: List[Monument] = []
+
+    def __contains__(self, name: str) -> bool:
+        for monument in self.__library:
+            if monument.name == name:
+                return True
+            
+        return False
+    
+    def __len__(self) -> int:
+        return len(self.__library)
+    
+    def __iter__(self) -> Generator[Monument, None, None]:
+        for monument in self.__library:
+            yield monument
+
+    def __repr__(self) -> str:
+        return "\n".join([str(monuments) for monuments in self.__library])
     
     def add_monument(self, monument_name: str):
         self.__library.append(monument_name)
@@ -35,23 +73,6 @@ class MonumentLibrary: # TODO
             else:
                 index += 1
 
-    def __contains__(self, name: str) -> bool:
-        for monument in self.__library:
-            if monument.name == name:
-                return True
-            
-        return False
-
-    def __len__(self) -> int:
-        return len(self.__library)
-    
-    def __iter__(self) -> Generator[Monument, None, None]:
-        for monument in self.__library:
-            yield monument
-
-    def __repr__(self) -> str:
-        return "\n".join([str(monuments) for monuments in self.__library])
-    
 class Trail:
     DIFFICULTIES: Tuple[str] = ("intermediate", "moderate", "advanced")
     TRAIL_TYPES: Tuple[str] = ("one way", "loop", "out and back")
@@ -68,6 +89,12 @@ class Trail:
         self.peak_elevation = peak_elevation
         self.trail_type = type_of_trail
         self.difficulty = difficulty
+
+    def __repr__(self) -> str:
+        return f"The trail name is {self.name}, it is a {self.trail_type} that is {self.__length} {self.__length_measurement_type} long with an elevation gain of {self.peak_elevation} feet. This trail is for more {self.difficulty} hikers, hike at your own risk."
+
+    def __str__(self) -> str:
+        return self.__repr__()
         
     @property
     def name(self) -> str:
@@ -142,12 +169,6 @@ class Trail:
             self.__length_measurement_type = length_measurement_type.lower() 
         else:
             raise ValueError(f"The trail length measurement type '{length_measurement_type}' is not allowed. Choose one of the following: {self.TRAIL_LENGTH_MEASUREMENT_TYPES}")
-    
-    def __repr__(self) -> str:
-        return f"The trail name is {self.name}, it is a {self.trail_type} that is {self.__length} {self.__length_measurement_type} long with an elevation gain of {self.peak_elevation} feet. This trail is for more {self.difficulty} hikers, hike at your own risk."
-
-    def __str__(self) -> str:
-        return self.__repr__()
 
 class TrailLibrary: 
     def __init__(self): 
@@ -307,9 +328,6 @@ class NationalPark:
 class NationalParkLibrary:
     def __init__(self):
         self.__library: List[NationalPark] = []
-    
-    def add_park(self, park: NationalPark):
-        self.__library.append(park)
 
     def __repr__(self) -> str:
         return "\n".join([str(park) for park in self.__library])
@@ -317,6 +335,9 @@ class NationalParkLibrary:
     def __iter__(self) -> Generator[NationalPark,None,None]:
         for park in self.__library:
             yield park
+
+    def add_park(self, park: NationalPark):
+        self.__library.append(park)
 
 if __name__ == "__main__":
     # a = NationalPark(name="Yosemite", county="Santa Clara", state="CA", terrain_type="desert", perimeter=5000)
