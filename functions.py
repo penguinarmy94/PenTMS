@@ -10,16 +10,51 @@ class Wildlife:
         self.species: str = species
 
 class Campground: 
-    pass
+
+    TYPES_OF_CAMPGROUNDS: Tuple[str] = ("Glamping", "Tenting", "RV") # TODO create properties in this class
+    def __init__(self, name: str, capacity: int, type_of_camping: str):
+        self.__name: str = name 
+        self.__capacity: int = capacity 
+        self.type_of_camping: str = type_of_camping
+        self.is_open: bool = True
+        self.has_bathrooms: bool = True
+        self.campfires_allowed: bool = True 
+        self.pet_allowed: bool = True
+
+    
 
 class CampgroundLibrary: 
     pass
 
 class WeatherConditions: 
-    pass
+    LIST_OF_WEATHER_CONDITIONS: Tuple[str] = ("sunshine", "cloudy", "partly cloudy,", "overcast", "raining", "snowing", "foggy", "thunder", "lightning", "windy")
+
+
+    def __init__(self, temp_in_f: int, weather_type: str, chance_of_precipitation: int, humidity: int, wind_in_mph: int): 
+        self.temp_in_f: int = temp_in_f
+        self.weather_type: str = weather_type
+        self.chance_of_precipitation: int = chance_of_precipitation
+        self.humidity: int = humidity
+        self.wind: int = wind_in_mph
+
+    def __str__(self) -> str:
+        return self.__repr__  
+    
+    def __repr__(self) -> str:
+        return f"The current conditions are as follows: {self.temp_in_f} F, {self.weather_type} with {self.chance_of_precipitation}% chance of preciptation and a humidity level of {self.humidity}%. Wind at {self.wind}mph"
+    
+    # I think for now, this will be a placeholder. When we get to implementing everything on to the website I would want to add current weather conditions (live updates)
+    # but as of right now I am not too sure how we would implement that.
+
 
 class BodyOfWater: 
-    pass
+    TYPES_OF_BODIES_OF_WATER: Tuple[str] = ("Reservoir", "Lake", "Beach", "Pond", "River", "Creek")
+    
+    def __init__(self, name: str, type_of_body_of_water: str):
+        self.__name: str = name #TODO property function
+        self.type_of_body_of_water: str = type_of_body_of_water
+        self.can_swim: bool = True 
+
 
 class ParkActivities: 
     pass
@@ -354,7 +389,7 @@ if __name__ == "__main__":
     # b = Monument(name="Small Tower", year_built= 1850, historic_value="Some")
     
     
-    parks = NationalPark("Yosemite", "Mariposa", "CA", "Mixed", 5000)
+    # parks = NationalPark("Yosemite", "Mariposa", "CA", "Mixed", 5000)
     
 
     # # assert parks.monument_count() == 2
@@ -362,27 +397,29 @@ if __name__ == "__main__":
     # parks.remove_monument(a.name)
     # print(parks.monuments)
 
-    a = Trail(name='Jones Peak', length=5, length_measurement_type="miles", difficulty= "advanced", peak_elevation=3000, type_of_trail="Out and back")
-    b = Trail(name="Strawberry Peak", length= 6.5, length_measurement_type= "miles", difficulty="Advanced", peak_elevation=2700, type_of_trail="Out and Back")
-    c = Trail(name= "Mt Baldy", length=14, length_measurement_type="miles",  difficulty="Advanced", peak_elevation = 5000, type_of_trail="Loop")
+    # a = Trail(name='Jones Peak', length=5, length_measurement_type="miles", difficulty= "advanced", peak_elevation=3000, type_of_trail="Out and back")
+    # b = Trail(name="Strawberry Peak", length= 6.5, length_measurement_type= "miles", difficulty="Advanced", peak_elevation=2700, type_of_trail="Out and Back")
+    # c = Trail(name= "Mt Baldy", length=14, length_measurement_type="miles",  difficulty="Advanced", peak_elevation = 5000, type_of_trail="Loop")
 
-    parks.create_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
-    parks.add_trail(b)
-    parks.create_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
+    # parks.create_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
+    # parks.add_trail(b)
+    # parks.create_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
 
-    d = Trail(name="Chocolate Mountain", length=10, length_measurement_type="kilometers", difficulty="moderate", peak_elevation=550, type_of_trail="loop")
+    # d = Trail(name="Chocolate Mountain", length=10, length_measurement_type="kilometers", difficulty="moderate", peak_elevation=550, type_of_trail="loop")
     
-    e = d
+    # e = d
     
-    parks.add_trail(d)
-    parks.remove_trail(b)
+    # parks.add_trail(d)
+    # parks.remove_trail(b)
 
-    assert parks.trail_count() == 3, f"There are actually '{parks.trail_count()}' trails"
+    # assert parks.trail_count() == 3, f"There are actually '{parks.trail_count()}' trails"
     
-    parks.remove_trail_by_name(trail_name=c.name)
+    # parks.remove_trail_by_name(trail_name=c.name)
     
-    assert parks.trail_count() == 2
+    # assert parks.trail_count() == 2
     
+    test = WeatherConditions(57, "cloudy", 0, 65, 10)
+    print(test)
     
     
 
