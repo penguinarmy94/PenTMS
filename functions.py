@@ -3,6 +3,7 @@ from typing import List, Any, Dict, Tuple, Union, Generator, Optional
 
 STATES = ["CA", "FL", "TX", "NY", "RI", "WS"]
 
+
 class Wildlife:
     def __init__(self, name: str, number_of_legs: int, species: str):
         self.name: str = name
@@ -36,9 +37,6 @@ class WeatherConditions:
         self.chance_of_precipitation: int = chance_of_precipitation
         self.humidity: int = humidity
         self.wind: int = wind_in_mph
-
-    def __str__(self) -> str:
-        return self.__repr__  
     
     def __repr__(self) -> str:
         return f"The current conditions are as follows: {self.temp_in_f} F, {self.weather_type} with {self.chance_of_precipitation}% chance of preciptation and a humidity level of {self.humidity}%. Wind at {self.wind}mph"
@@ -54,15 +52,6 @@ class BodyOfWater:
         self.__name: str = name #TODO property function
         self.type_of_body_of_water: str = type_of_body_of_water
         self.can_swim: bool = True 
-
-
-class ParkActivities: 
-    pass
-
-class VisitorCenter: 
-    pass
-
-
 
 
 class Monument: # TODO
@@ -374,6 +363,49 @@ class NationalParkLibrary:
     def add_park(self, park: NationalPark):
         self.__library.append(park)
 
+class TripPlanner:
+    def __init__(self, list_of_trails: str, list_of_monuments: str, list_of_wildlife: str):
+        self.list_of_trails: str = list_of_trails
+        self.list_of_monuments: str = list_of_monuments
+        self.list_of_wildlife: str = list_of_wildlife
+     
+    def __init__(self):
+        self.__trail_library: List[Trail] = []
+
+    def __init__(self):
+        self.__monument_libray: List[Monument] = []
+
+    def __init__(self):
+        self.__wildlife_library: List[Wildlife] = []
+
+    def add_trail_to_list(self, trail_object: Trail):
+        pass
+
+    def remove_trail_from_list(self, trail_object: Trail):
+        pass
+
+    def print_list_of_trails(self):
+        pass
+    
+    def add_monument_to_list(self, monument: Monument):
+        pass
+
+    def remove_monument_from_list(self, monument: Monument):
+        pass
+
+    def print_list_of_monuments(self):
+        pass
+
+    def add_wildlife_to_list(self, wildlife: Wildlife):
+        pass
+
+    def remove_wildlife_from_list(self, wildlife: Wildlife):
+        pass
+
+    def print_list_of_wildlife(self):
+        pass
+
+
 if __name__ == "__main__":
     # a = NationalPark(name="Yosemite", county="Santa Clara", state="CA", terrain_type="desert", perimeter=5000)
     # b = NationalPark(name="Yellowstone", county="Pensicola", state="NY", terrain_type="forest", perimeter=9825.67)
@@ -421,6 +453,4 @@ if __name__ == "__main__":
     test = WeatherConditions(57, "cloudy", 0, 65, 10)
     print(test)
     
-    
-
  
