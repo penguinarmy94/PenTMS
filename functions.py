@@ -23,7 +23,6 @@ class Campground:
         self.pet_allowed: bool = True
 
     
-
 class CampgroundLibrary: 
     pass
 
@@ -52,9 +51,10 @@ class BodyOfWater:
         self.__name: str = name #TODO property function
         self.type_of_body_of_water: str = type_of_body_of_water
         self.can_swim: bool = True 
+        self.can_fish: bool = True
 
 
-class Monument: # TODO
+class Monument: 
     def __init__(self, name: str, year_built: int, historic_value: str):
         self.year: int = year_built
         self.name: str = name
@@ -63,7 +63,7 @@ class Monument: # TODO
     def __repr__(self) -> str:
         return f"The monument's name is {self.name}, it was built in {self.year}, and it is valuable because {self.historic_value}"
 
-class MonumentLibrary: # TODO
+class MonumentLibrary: 
     def __init__(self):
         self.__library: List[Monument] = []
 
@@ -363,94 +363,60 @@ class NationalParkLibrary:
     def add_park(self, park: NationalPark):
         self.__library.append(park)
 
-class TripPlanner:
-    def __init__(self, list_of_trails: str, list_of_monuments: str, list_of_wildlife: str):
-        self.list_of_trails: str = list_of_trails
-        self.list_of_monuments: str = list_of_monuments
-        self.list_of_wildlife: str = list_of_wildlife
-     
-    def __init__(self):
-        self.__trail_library: List[Trail] = []
-
-    def __init__(self):
-        self.__monument_libray: List[Monument] = []
-
-    def __init__(self):
-        self.__wildlife_library: List[Wildlife] = []
-
-    def add_trail_to_list(self, trail_object: Trail):
-        pass
-
-    def remove_trail_from_list(self, trail_object: Trail):
-        pass
-
-    def print_list_of_trails(self):
-        pass
+# class TripPlanner:
     
-    def add_monument_to_list(self, monument: Monument):
-        pass
+    # def __init__(self):
+    #     self.trails: TrailLibrary = TrailLibrary()
+    #     self.monuments: MonumentLibrary = MonumentLibrary()
+    #     self.wildlife: Wildlife = Wildlife()
 
-    def remove_monument_from_list(self, monument: Monument):
-        pass
+class TripPlanner:
+    LIST_OF_TRAILS: List[str] = ["Old Baldy Trail", "Colby Canyon", "Redbox Canyon"]
+    LIST_OF_MONUMENTS: List[str] = ["Jackson Wall", "Cabrillo", "Devil's Tower"]
+    LIST_OF_WILDLIFE: List[str] = ["Fox", "Whitetail Deer", "Jackrabbit"]
 
-    def print_list_of_monuments(self):
-        pass
+    def __init__(self):
+        self.trip_list: List[str] = []
+    
+    def __repr__(self) -> str:
+        for number, name in enumerate(self.trip_list):
+            return f"{number + 1}. {name}".title() 
+    
+    def __str__(self) -> str:
+        return self.__repr__()
 
-    def add_wildlife_to_list(self, wildlife: Wildlife):
-        pass
+    def add_trails_to_planner(self):
+        trail_name = input(f"Choose trails to add to your trip planner: {self.LIST_OF_TRAILS}")
+        self.trip_list.append(trail_name)
 
-    def remove_wildlife_from_list(self, wildlife: Wildlife):
-        pass
+    def remove_trails_from_planner(self, trail_name):
+        if trail_name in self.trip_list: 
+            self.trip_list.pop(trail_name)
 
-    def print_list_of_wildlife(self):
-        pass
+    def add_monuments_to_planner(self):
+        monument_name = input(f"Choose monuments to add to your trip planner: {self.LIST_OF_MONUMENTS}")
+        self.trip_list.append(monument_name)
 
+    def remove_monuments_from_planner(self, monument_name):
+        if monument_name in self.trip_list:
+            self.trip_list.pop(monument_name)
+        
+
+    def add_wildlife_to_planner(self):
+        wildlife_name = input(f"Choose wildlife to add to your trip planner: {self.LIST_OF_WILDLIFE}")
+        self.trip_list.append(wildlife_name)
+
+    def remove_wildlife_from_planner(self, wildlife_name):
+        if wildlife_name in self.trip_list:
+            self.trip_list.pop(wildlife_name)
+        
+# TODO create an entire program that will run when TripPlanner is called upon, will put user through a loop in order to 
+# get all of the trails, monuments, wildlife that they want to see. 
+
+    
+        
 
 if __name__ == "__main__":
-    # a = NationalPark(name="Yosemite", county="Santa Clara", state="CA", terrain_type="desert", perimeter=5000)
-    # b = NationalPark(name="Yellowstone", county="Pensicola", state="NY", terrain_type="forest", perimeter=9825.67)
-    # lib = NationalParkLibrary()
-
-
-    # a.add_monument()
-    
-    # lib.add_park(a)
-    # lib.add_park(b)
-    
-    # a = Monument(name="Big Tower", year_built= 1930, historic_value= "None")
-    # b = Monument(name="Small Tower", year_built= 1850, historic_value="Some")
-    
-    
-    # parks = NationalPark("Yosemite", "Mariposa", "CA", "Mixed", 5000)
-    
-
-    # # assert parks.monument_count() == 2
-    # print(parks.monuments)
-    # parks.remove_monument(a.name)
-    # print(parks.monuments)
-
-    # a = Trail(name='Jones Peak', length=5, length_measurement_type="miles", difficulty= "advanced", peak_elevation=3000, type_of_trail="Out and back")
-    # b = Trail(name="Strawberry Peak", length= 6.5, length_measurement_type= "miles", difficulty="Advanced", peak_elevation=2700, type_of_trail="Out and Back")
-    # c = Trail(name= "Mt Baldy", length=14, length_measurement_type="miles",  difficulty="Advanced", peak_elevation = 5000, type_of_trail="Loop")
-
-    # parks.create_trail(a.name, a.length, a.length_measurement_type, a.difficulty, a.peak_elevation, a.trail_type)
-    # parks.add_trail(b)
-    # parks.create_trail(c.name, c.length, c.length_measurement_type, c.difficulty, c.peak_elevation, c.trail_type)
-
-    # d = Trail(name="Chocolate Mountain", length=10, length_measurement_type="kilometers", difficulty="moderate", peak_elevation=550, type_of_trail="loop")
-    
-    # e = d
-    
-    # parks.add_trail(d)
-    # parks.remove_trail(b)
-
-    # assert parks.trail_count() == 3, f"There are actually '{parks.trail_count()}' trails"
-    
-    # parks.remove_trail_by_name(trail_name=c.name)
-    
-    # assert parks.trail_count() == 2
-    
-    test = WeatherConditions(57, "cloudy", 0, 65, 10)
-    print(test)
-    
- 
+    trip = TripPlanner()
+    trip.add_trails_to_planner()
+    print(trip)
