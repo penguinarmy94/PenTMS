@@ -391,7 +391,7 @@ class TripPlanner:
 
     def remove_trails_from_planner(self, trail_name):
         if trail_name in self.trip_list: 
-            self.trip_list.pop(trail_name)
+            self.trip_list.remove(trail_name)
 
     def add_monuments_to_planner(self):
         monument_name = input(f"Choose monuments to add to your trip planner: {self.LIST_OF_MONUMENTS}")
@@ -399,24 +399,45 @@ class TripPlanner:
 
     def remove_monuments_from_planner(self, monument_name):
         if monument_name in self.trip_list:
-            self.trip_list.pop(monument_name)
+            self.trip_list.remove(monument_name)
         
-
     def add_wildlife_to_planner(self):
         wildlife_name = input(f"Choose wildlife to add to your trip planner: {self.LIST_OF_WILDLIFE}")
         self.trip_list.append(wildlife_name)
 
     def remove_wildlife_from_planner(self, wildlife_name):
         if wildlife_name in self.trip_list:
-            self.trip_list.pop(wildlife_name)
-        
-# TODO create an entire program that will run when TripPlanner is called upon, will put user through a loop in order to 
-# get all of the trails, monuments, wildlife that they want to see. 
-
+            self.trip_list.remove(wildlife_name)
     
+    def print_list_of_trips(self):
+        for number, name in enumerate(self.trip_list):
+            return f"{number + 1}. {name}".title() 
         
-
 if __name__ == "__main__":
     trip = TripPlanner()
     trip.add_trails_to_planner()
-    print(trip)
+    first_list = trip.print_list_of_trips()
+    print(first_list)
+    trip.remove_trails_from_planner("old baldy trail")
+    second_list = trip.print_list_of_trips()
+    print(second_list)
+
+    # trip = TripPlanner()
+    # trip.add_monuments_to_planner()
+    # first_list = trip.print_list_of_trips()
+    # print(first_list)
+    # trip.remove_monuments_from_planner("cabrillo")
+    # second_list = trip.print_list_of_trips()
+    # print(second_list)
+
+    # trip = TripPlanner()
+    # trip.add_wildlife_to_planner()
+    # first_list = trip.print_list_of_trips()
+    # print(first_list)
+    # trip.remove_wildlife_from_planner('whitetail deer')
+    # second_list = trip.print_list_of_trips()
+    # print(second_list)
+        
+    # NOTE would we wrap the above in a While loop within the TripPlanner class or would it be outside of the class? I was also 
+    # a bit unsure of how we would tie in all the other classes to the TripPlanner (Trail, Monument, etc.) hopefully you can expand 
+    # the next time we meet so we can further the class a bit more. However, so far this is what I've come up with.
